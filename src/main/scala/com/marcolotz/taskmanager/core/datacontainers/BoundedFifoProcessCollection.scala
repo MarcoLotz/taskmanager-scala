@@ -2,28 +2,30 @@ package com.marcolotz.taskmanager.core.datacontainers
 
 import com.marcolotz.taskmanager.model.AcceptedProcessDecorator
 
+import scala.collection.immutable.Queue
+
 class BoundedFifoProcessCollection(maximumSize: Int) extends ProcessCollection(maximumSize) {
 
-  private var list: List[AcceptedProcessDecorator] = List()
+  private var queue: Queue[AcceptedProcessDecorator] = Queue()
 
   override def addProcess(process: AcceptedProcessDecorator): Unit = {
-    if (list.size.equals(maximumSize)) {
+    if (queue.size.equals(maximumSize)) {
       {
-        val removedProcess = list.head
-        list = list.drop(0)
-        removedProcess.kill()
+        val (processToRemove, newQueue) = queue.dequeue
+        processToRemove.kill()
+        queue = newQueue
       }
-      list :: List(process)
+      queue :: List(process)
     }
   }
 
-  override def size: Int = list.size
+  override def size: Int = queue.size
 
-  override def toList: List[AcceptedProcessDecorator] = list
+  override def toList: List[AcceptedProcessDecorator] = queue.toList
 
   override def removeMatchingProcess(pred: AcceptedProcessDecorator => Boolean): Set[AcceptedProcessDecorator] = {
-    val removedProcesses = list.filter(pred)
-    list = list.filterNot(pred)
+    val removedProcesses = queue.filter(pred)
+    queue = queue.filterNot(pred)
     removedProcesses.toSet
   }
 }
