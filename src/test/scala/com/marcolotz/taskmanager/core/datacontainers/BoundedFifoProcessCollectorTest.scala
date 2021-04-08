@@ -11,7 +11,7 @@ object BoundedFifoProcessCollectorTest extends AbstractProcessCollectorTest {
 
   override def supplyCollection: ProcessCollector = new BoundedFifoProcessCollector(maximum_capacity)
 
-  property("adding a process should throw exceptions when capacity is reached") =
+  property("adding a process should remove the oldest process when list is full") =
     forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       val processCollector = supplyCollection
       for ((process, numberOfIngestedProcesses) <- processes.zip(0 to processes.size)) {

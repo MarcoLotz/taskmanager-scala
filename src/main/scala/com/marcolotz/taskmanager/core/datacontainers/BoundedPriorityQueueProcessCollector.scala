@@ -6,8 +6,7 @@ import com.typesafe.scalalogging.LazyLogging
 import scala.collection.mutable
 
 class BoundedPriorityQueueProcessCollector(maximumSize: Int)(val ordering: Ordering[AcceptedProcessDecorator])
-  extends ProcessCollector(maximumSize: Int)
-    with LazyLogging {
+  extends ProcessCollector(maximumSize: Int) with LazyLogging {
 
   val queue: mutable.PriorityQueue[AcceptedProcessDecorator] = mutable.PriorityQueue()(ordering)
 

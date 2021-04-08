@@ -4,6 +4,7 @@ import com.marcolotz.taskmanager.model._
 import com.marcolotz.taskmanager.util.SequentialTimeProvider
 import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.{Gen, Properties}
+import org.scalatest.matchers.must.Matchers.contain
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 abstract class AbstractProcessCollectorTest extends Properties("ProcessCollection") {
@@ -25,7 +26,8 @@ abstract class AbstractProcessCollectorTest extends Properties("ProcessCollectio
       processes.foreach(p => collection.addProcess(p))
 
       val listEquivalent = collection.toList
-      listEquivalent.equals(processes)
+      listEquivalent should contain allElementsOf processes
+      listEquivalent.size == processes.size
     }
 
   property("size should always return the size of the internal number of running processes") =
@@ -50,8 +52,9 @@ abstract class AbstractProcessCollectorTest extends Properties("ProcessCollectio
 
       // Then
       collection.size shouldBe (expectedCollectionState.size)
-      collection.toList shouldBe expectedCollectionState
-      removed.equals(expectedRemovals)
+      collection.toList should contain allElementsOf expectedCollectionState
+      removed should contain allElementsOf(expectedRemovals)
+      removed.size == expectedRemovals.size
     }
 
 }
