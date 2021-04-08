@@ -1,6 +1,6 @@
 package com.marcolotz.taskmanager.core
 
-import com.marcolotz.taskmanager.core.datacontainers.ProcessCollection
+import com.marcolotz.taskmanager.core.datacontainers.ProcessCollector
 import com.marcolotz.taskmanager.exception.{MaximumCapacityReachedException, ProcessNotFoundException}
 import com.marcolotz.taskmanager.model.{AcceptedProcessDecorator, HIGH_PRIORITY, LOW_PRIORITY, Process}
 import com.marcolotz.taskmanager.ports.TaskManager
@@ -17,7 +17,7 @@ import scala.util.{Failure, Success}
 
 class SimpleTaskManagerTest extends AnyFlatSpec with BeforeAndAfter {
 
-  val processes: ProcessCollection = mock[ProcessCollection]
+  val processes: ProcessCollector = mock[ProcessCollector]
   var taskManager: TaskManager = _
 
   before {

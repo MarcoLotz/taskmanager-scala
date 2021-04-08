@@ -3,7 +3,7 @@ package com.marcolotz.taskmanager.core.datacontainers
 import com.marcolotz.taskmanager.exception.MaximumCapacityReachedException
 import com.marcolotz.taskmanager.model.AcceptedProcessDecorator
 
-abstract class ProcessCollection(val maximumSize: Int) {
+abstract class ProcessCollector(val maximumSize: Int) {
   // constructor validation
   require(maximumSize > 1, "Capacity needs to be higher than 0")
 

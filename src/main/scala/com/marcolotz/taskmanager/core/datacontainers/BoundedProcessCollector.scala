@@ -3,7 +3,7 @@ package com.marcolotz.taskmanager.core.datacontainers
 import com.marcolotz.taskmanager.exception.MaximumCapacityReachedException
 import com.marcolotz.taskmanager.model.AcceptedProcessDecorator
 
-class BoundedProcessCollection(maximumSize: Int) extends ProcessCollection(maximumSize: Int) {
+class BoundedProcessCollector(maximumSize: Int) extends ProcessCollector(maximumSize: Int) {
 
   private var list: List[AcceptedProcessDecorator] = List()
 

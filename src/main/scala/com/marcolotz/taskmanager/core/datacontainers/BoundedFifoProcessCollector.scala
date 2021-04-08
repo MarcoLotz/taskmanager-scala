@@ -4,19 +4,17 @@ import com.marcolotz.taskmanager.model.AcceptedProcessDecorator
 
 import scala.collection.immutable.Queue
 
-class BoundedFifoProcessCollection(maximumSize: Int) extends ProcessCollection(maximumSize) {
+class BoundedFifoProcessCollector(maximumSize: Int) extends ProcessCollector(maximumSize) {
 
   private var queue: Queue[AcceptedProcessDecorator] = Queue()
 
   override def addProcess(process: AcceptedProcessDecorator): Unit = {
     if (queue.size.equals(maximumSize)) {
-      {
-        val (processToRemove, newQueue) = queue.dequeue
-        processToRemove.kill()
-        queue = newQueue
-      }
-      queue :: List(process)
+      val (processToRemove, newQueue) = queue.dequeue
+      processToRemove.kill()
+      queue = newQueue
     }
+    queue = queue :+ process
   }
 
   override def size: Int = queue.size

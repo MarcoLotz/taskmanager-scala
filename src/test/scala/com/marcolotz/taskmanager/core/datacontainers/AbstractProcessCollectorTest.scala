@@ -6,16 +6,18 @@ import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
-abstract class AbstractProcessCollectionTest extends Properties("ProcessCollection") {
+abstract class AbstractProcessCollectorTest extends Properties("ProcessCollection") {
 
-  val MAXIMUM_CAPACITY: Int = 500
+  val MAXIMUM_NUMBER_OF_GENERATED_PROCESSES: Int = 500
+  // TODO: abstract val maximum_capacity: Int
+
   val processGenerator: Gen[AcceptedProcessDecorator] = for {
     priority <- Gen.oneOf(LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY)
   } yield AcceptedProcessDecorator(Process(priority), SequentialTimeProvider.getTime)
 
   val processListGenerator: Gen[List[AcceptedProcessDecorator]] = Gen.nonEmptyListOf(processGenerator) suchThat (_.nonEmpty)
 
-  def supplyCollection: ProcessCollection
+  def supplyCollection: ProcessCollector
 
   property("toList should always return the list equivalent of the internal collection") =
     forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>

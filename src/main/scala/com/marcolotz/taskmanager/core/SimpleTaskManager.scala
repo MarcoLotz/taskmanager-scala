@@ -1,6 +1,6 @@
 package com.marcolotz.taskmanager.core
 
-import com.marcolotz.taskmanager.core.datacontainers.ProcessCollection
+import com.marcolotz.taskmanager.core.datacontainers.ProcessCollector
 import com.marcolotz.taskmanager.exception.ProcessNotFoundException
 import com.marcolotz.taskmanager.model.{AcceptedProcessDecorator, Priority, Process}
 import com.marcolotz.taskmanager.ports.{TaskManager, TimeProvider}
@@ -8,7 +8,7 @@ import com.marcolotz.taskmanager.ports.{TaskManager, TimeProvider}
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
 
-class SimpleTaskManager(val timeProvider: TimeProvider, val tasks: ProcessCollection) extends TaskManager {
+class SimpleTaskManager(val timeProvider: TimeProvider, val tasks: ProcessCollector) extends TaskManager {
 
   override def addProcess(process: Process): Try[Unit] =
     Try {

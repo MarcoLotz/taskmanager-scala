@@ -8,15 +8,16 @@ import org.scalatest.matchers.must.Matchers.{be, noException}
 
 import scala.sys.process
 
-object BoundedProcessCollectionTest extends AbstractProcessCollectionTest {
-  override def supplyCollection: ProcessCollection = new BoundedProcessCollection(100)
+object BoundedProcessCollectorTest extends AbstractProcessCollectorTest {
+  val maximum_capacity = 100
+  override def supplyCollection: ProcessCollector = new BoundedProcessCollector(maximum_capacity)
 
   property("adding a process should throw exceptions when capacity is reached") =
     forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       val collection = supplyCollection
       for ( (process, numberOfIngestedProcesses) <- processes.zip(0 to processes.size)) {
         {
-          if (numberOfIngestedProcesses < MAXIMUM_CAPACITY) {
+          if (numberOfIngestedProcesses < maximum_capacity) {
             noException should be thrownBy collection.addProcess(process)
           }
           else {
