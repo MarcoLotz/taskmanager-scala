@@ -5,7 +5,7 @@ import com.marcolotz.taskmanager.model.AcceptedProcessDecorator
 
 abstract class ProcessCollection(val maximumSize: Int) {
   // constructor validation
-  require(maximumSize < 1, "Capacity needs to be higher than 0")
+  require(maximumSize > 1, "Capacity needs to be higher than 0")
 
   @throws(classOf[MaximumCapacityReachedException]) //(https://bit.ly/3sTcrzU)
   def addProcess(process: AcceptedProcessDecorator): Unit

@@ -2,8 +2,7 @@ package com.marcolotz.taskmanager.core.datacontainers
 
 import com.marcolotz.taskmanager.model._
 import com.marcolotz.taskmanager.util.SequentialTimeProvider
-import org.scalacheck.Gen.lzy
-import org.scalacheck.Prop.forAll
+import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
@@ -14,8 +13,12 @@ abstract class AbstractProcessCollectionTest extends Properties("ProcessCollecti
     priority <- Gen.oneOf(LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY)
   } yield AcceptedProcessDecorator(Process(priority), SequentialTimeProvider.getTime)
 
+  val processListGenerator: Gen[List[AcceptedProcessDecorator]] = Gen.nonEmptyListOf(processGenerator) suchThat (_.nonEmpty)
+
+  def supplyCollection: ProcessCollection
+
   property("toList should always return the list equivalent of the internal collection") =
-    forAll(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
+    forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       val collection = supplyCollection
       processes.foreach(p => collection.addProcess(p))
 
@@ -24,7 +27,7 @@ abstract class AbstractProcessCollectionTest extends Properties("ProcessCollecti
     }
 
   property("size should always return the size of the internal number of running processes") =
-    forAll(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
+    forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       val collection = supplyCollection
       processes.foreach(p => collection.addProcess(p))
       collection.size == processes.size
@@ -32,7 +35,7 @@ abstract class AbstractProcessCollectionTest extends Properties("ProcessCollecti
 
 
   property("removeMatchingProcess should always remove all processes that the predicate is true") =
-    forAll(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
+    forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       // Given
       val collection = supplyCollection
       processes.foreach(p => collection.addProcess(p))
@@ -48,9 +51,5 @@ abstract class AbstractProcessCollectionTest extends Properties("ProcessCollecti
       collection.toList shouldBe expectedCollectionState
       removed.equals(expectedRemovals)
     }
-
-  val processListGenerator: Gen[List[AcceptedProcessDecorator]] = Gen.listOfN(MAXIMUM_CAPACITY, lzy(processGenerator))
-
-  def supplyCollection: ProcessCollection
 
 }
