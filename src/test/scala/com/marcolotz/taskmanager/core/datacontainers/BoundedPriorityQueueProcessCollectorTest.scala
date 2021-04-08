@@ -25,12 +25,12 @@ object BoundedPriorityQueueProcessCollectorTest extends AbstractProcessCollector
               // Should be a replace lowest priority
               val updatedLowPriority = retrieveLowestPriority(processCollector.toList)
               processCollector.toList should contain(process)
-              originalLowPriorityProcesses.toList should contain allElementsOf(updatedLowPriority)
+              originalLowPriorityProcesses.toList should contain allElementsOf (updatedLowPriority)
               updatedLowPriority.size shouldBe originalLowPriorityProcesses.size - 1
             }
             else // Recently added process should be ignored
             {
-                processCollector.toList should not contain process
+              processCollector.toList should not contain process
             }
             processCollector.size == maximum_capacity
           }

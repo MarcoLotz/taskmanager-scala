@@ -49,10 +49,10 @@ class SimpleTaskManagerTest extends AnyFlatSpec with BeforeAndAfter {
 
   it should "list and sort running processes" in {
     // Given
-    val lowPrio =  AcceptedProcessDecorator(Process(LOW_PRIORITY), SequentialTimeProvider.getTime)
+    val lowPrio = AcceptedProcessDecorator(Process(LOW_PRIORITY), SequentialTimeProvider.getTime)
     val highPrio = AcceptedProcessDecorator(Process(HIGH_PRIORITY), SequentialTimeProvider.getTime)
 
-    val mockResponse = List(lowPrio,highPrio)
+    val mockResponse = List(lowPrio, highPrio)
     doReturn(mockResponse).when(processes).toList
     val expectedResult = mockResponse.sorted(PRIORITY.ordering).map(p => p.process)
 
@@ -66,7 +66,7 @@ class SimpleTaskManagerTest extends AnyFlatSpec with BeforeAndAfter {
 
   it should "kill all processes" in {
     // Given
-    val process =  spy(AcceptedProcessDecorator(Process(LOW_PRIORITY), SequentialTimeProvider.getTime))
+    val process = spy(AcceptedProcessDecorator(Process(LOW_PRIORITY), SequentialTimeProvider.getTime))
 
     val mockResponse = List(process)
     doReturn(mockResponse.toSet).when(processes).removeMatchingProcess(any())
@@ -80,7 +80,7 @@ class SimpleTaskManagerTest extends AnyFlatSpec with BeforeAndAfter {
 
   it should "kill a process specified by the pid" in {
     // Given
-    val process =  spy(AcceptedProcessDecorator(Process(LOW_PRIORITY), SequentialTimeProvider.getTime))
+    val process = spy(AcceptedProcessDecorator(Process(LOW_PRIORITY), SequentialTimeProvider.getTime))
     val processPid = process.pid
 
     val mockResponse = List(process)

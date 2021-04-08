@@ -9,14 +9,12 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 abstract class AbstractProcessCollectorTest extends Properties("ProcessCollection") {
 
-  protected val MAXIMUM_NUMBER_OF_GENERATED_PROCESSES: Int = 500
-  protected var maximum_capacity: Int
-
   val processGenerator: Gen[AcceptedProcessDecorator] = for {
     priority <- Gen.oneOf(LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY)
   } yield AcceptedProcessDecorator(Process(priority), SequentialTimeProvider.getTime)
-
   val processListGenerator: Gen[List[AcceptedProcessDecorator]] = Gen.nonEmptyListOf(processGenerator) suchThat (_.nonEmpty)
+  protected val MAXIMUM_NUMBER_OF_GENERATED_PROCESSES: Int = 500
+  protected var maximum_capacity: Int
 
   def supplyCollection: ProcessCollector
 
@@ -53,7 +51,7 @@ abstract class AbstractProcessCollectorTest extends Properties("ProcessCollectio
       // Then
       collection.size shouldBe (expectedCollectionState.size)
       collection.toList should contain allElementsOf expectedCollectionState
-      removed should contain allElementsOf(expectedRemovals)
+      removed should contain allElementsOf (expectedRemovals)
       removed.size == expectedRemovals.size
     }
 
