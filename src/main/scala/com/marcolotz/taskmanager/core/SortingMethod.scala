@@ -15,6 +15,9 @@ sealed trait SortingMethod {
     }
   }
 }
+
 case object CREATION_TIME extends SortingMethod
+
 case object PRIORITY extends SortingMethod
+
 case object ID extends SortingMethod

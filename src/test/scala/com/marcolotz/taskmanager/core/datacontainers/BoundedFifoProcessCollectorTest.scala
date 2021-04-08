@@ -6,8 +6,7 @@ import org.scalatest.matchers.must.Matchers.{be, noException}
 
 object BoundedFifoProcessCollectorTest extends AbstractProcessCollectorTest {
 
-  // TODO:
-  val maximum_capacity = 100
+  override protected var maximum_capacity: Int = 100
 
   override def supplyCollection: ProcessCollector = new BoundedFifoProcessCollector(maximum_capacity)
 
@@ -29,5 +28,4 @@ object BoundedFifoProcessCollectorTest extends AbstractProcessCollectorTest {
       }
       true
     }
-
 }

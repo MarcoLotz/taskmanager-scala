@@ -3,7 +3,7 @@ package com.marcolotz.taskmanager.core
 import com.marcolotz.taskmanager.model._
 import com.marcolotz.taskmanager.ports.TimeProvider
 import com.marcolotz.taskmanager.util.SequentialTimeProvider
-import org.scalatest.{BeforeAndAfter, Ignore}
+import org.scalatest.BeforeAndAfter
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.{convertToAnyShouldWrapper, equal}
 

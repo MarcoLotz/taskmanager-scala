@@ -6,7 +6,7 @@ import com.marcolotz.taskmanager.model.{AcceptedProcessDecorator, HIGH_PRIORITY,
 import com.marcolotz.taskmanager.ports.TaskManager
 import com.marcolotz.taskmanager.util.SequentialTimeProvider
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{doNothing, doReturn, doThrow, reset, spy, verify}
+import org.mockito.Mockito._
 import org.mockito.MockitoSugar.mock
 import org.scalatest.BeforeAndAfter
 import org.scalatest.flatspec.AnyFlatSpec

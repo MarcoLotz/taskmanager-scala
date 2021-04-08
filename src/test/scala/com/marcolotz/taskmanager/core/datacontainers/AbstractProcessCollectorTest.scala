@@ -2,14 +2,14 @@ package com.marcolotz.taskmanager.core.datacontainers
 
 import com.marcolotz.taskmanager.model._
 import com.marcolotz.taskmanager.util.SequentialTimeProvider
-import org.scalacheck.Prop.{forAll, forAllNoShrink}
+import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.{Gen, Properties}
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 abstract class AbstractProcessCollectorTest extends Properties("ProcessCollection") {
 
-  val MAXIMUM_NUMBER_OF_GENERATED_PROCESSES: Int = 500
-  // TODO: abstract val maximum_capacity: Int
+  protected val MAXIMUM_NUMBER_OF_GENERATED_PROCESSES: Int = 500
+  protected var maximum_capacity: Int
 
   val processGenerator: Gen[AcceptedProcessDecorator] = for {
     priority <- Gen.oneOf(LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY)

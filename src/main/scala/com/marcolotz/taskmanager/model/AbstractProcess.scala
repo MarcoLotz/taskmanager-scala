@@ -8,7 +8,9 @@ import java.util.UUID
 sealed trait AbstractProcess {
 
   def pid: UUID
+
   def priority: Priority
+
   def kill(): AbstractProcess
 }
 
@@ -19,6 +21,7 @@ sealed trait AbstractProcess {
 // and use as a constructor parameter.
 case class Process(priority: Priority) extends AbstractProcess with LazyLogging {
   def pid: UUID = UUID.randomUUID()
+
   override def kill(): AbstractProcess = {
     logger.info("Process {} just got killed", this)
     // On a different model, the process state could also be changed here.
