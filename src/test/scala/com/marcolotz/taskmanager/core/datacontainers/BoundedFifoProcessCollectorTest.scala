@@ -2,7 +2,8 @@ package com.marcolotz.taskmanager.core.datacontainers
 
 import com.marcolotz.taskmanager.model.AcceptedProcessDecorator
 import org.scalacheck.Prop.forAllNoShrink
-import org.scalatest.matchers.must.Matchers.{be, noException}
+import org.scalatest.matchers.must.Matchers.{be, noException, not}
+import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 object BoundedFifoProcessCollectorTest extends AbstractProcessCollectorTest {
 
@@ -15,12 +16,10 @@ object BoundedFifoProcessCollectorTest extends AbstractProcessCollectorTest {
       val processCollector = supplyCollection
       for ((process, numberOfIngestedProcesses) <- processes.zip(0 to processes.size)) {
         {
-          // TODO: Track removal
-          //val oldest = processCollector.toList.head
+          val oldest = processCollector.toList.headOption
           noException should be thrownBy processCollector.addProcess(process)
           if (numberOfIngestedProcesses > maximum_capacity) {
-            // TODO: Use scala test syntax here
-            //assert(!processCollector.toList.contains(oldest))
+            if (oldest.isDefined) processCollector.toList should not contain oldest
             processCollector.size == maximum_capacity
           }
           processCollector.size <= maximum_capacity
