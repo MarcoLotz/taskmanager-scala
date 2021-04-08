@@ -4,6 +4,7 @@ import com.marcolotz.taskmanager.core.datacontainers.ProcessCollection
 import com.marcolotz.taskmanager.exception.{MaximumCapacityReachedException, ProcessNotFoundException}
 import com.marcolotz.taskmanager.model.{AcceptedProcessDecorator, HIGH_PRIORITY, LOW_PRIORITY, Process}
 import com.marcolotz.taskmanager.ports.TaskManager
+import com.marcolotz.taskmanager.util.SequentialTimeProvider
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{doNothing, doReturn, doThrow, reset, spy, verify}
 import org.mockito.MockitoSugar.mock
