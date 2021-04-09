@@ -39,6 +39,11 @@ In this case, I used random generators of up to 500 processes to ensure that the
 I have defined the properties in an abstract class, reducing the test code footprint.
 Only very specific behaviours had to be evaluated on implementation type basis.
 
+### Decorator Pattern as a Sealed Trait
+I have used scala Sealed Traits to improve the decorator pattern encapsulation
+Instead of having the abstract classes inheritance like originally performed in Java, in Scala it seems to be a good application of sealed traits.
+The reasoning is that this Trait won't be freely extended by someone importing the library (fixed number of child classes) and all the implementations only make sense when analysed together.
+
 ### Async Logging
 Log continues to be async.
 The only difference is that most of the Scala projects use logback for logging instead of Log4j2.
