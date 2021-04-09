@@ -4,7 +4,7 @@
 
 This is a Scala implementation of the Task Manager Coding Challenge.
 
-It holds the same decisions described in ("Original implementation decisions")[https://github.com/MarcoLotz/taskmanager/blob/main/README.md] of the Java project
+It holds the same decisions described in ["Original implementation decisions"](https://github.com/MarcoLotz/taskmanager/blob/main/README.md) of the Java project
 
 ## Extra Scala-Driven decisions
 
