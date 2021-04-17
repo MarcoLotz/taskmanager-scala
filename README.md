@@ -45,5 +45,5 @@ Instead of having the abstract classes inheritance like originally performed in 
 The reasoning is that this Trait won't be freely extended by someone importing the library (fixed number of child classes) and all the implementations only make sense when analysed together.
 
 ### Async Logging
-Log continues to be async.
-The only difference is that most of the Scala projects use logback for logging instead of Log4j2.
+Log continues to be async, with lazy evaluation, and with Log4j2.
+The only difference is that lazy logging evaluation is enforced as a mixin.
