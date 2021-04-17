@@ -25,7 +25,7 @@ class SimpleTaskManager(val timeProvider: TimeProvider, val tasks: ProcessCollec
       .filter(collection => collection.size == 1)
       .map(collection => collection.head)
       .map(p => p.kill())
-      .map(_ => Success())
+      .map(_ => Success(()))
       .getOrElse(Failure(new ProcessNotFoundException("could not find the process with pid: " + pid)))
   }
 

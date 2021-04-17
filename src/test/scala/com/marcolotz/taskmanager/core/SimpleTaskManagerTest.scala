@@ -32,7 +32,7 @@ class SimpleTaskManagerTest extends AnyFlatSpec with BeforeAndAfter {
     val result = taskManager.addProcess(Process(LOW_PRIORITY))
     // Then
     verify(processes).addProcess(any())
-    result shouldBe a[Success[Unit]]
+    result shouldBe a[Success[_]]
   }
 
   it should "notify failures when adding to process collection" in {
@@ -44,7 +44,7 @@ class SimpleTaskManagerTest extends AnyFlatSpec with BeforeAndAfter {
 
     // Then
     verify(processes).addProcess(any())
-    result shouldBe a[Failure[MaximumCapacityReachedException]]
+    result shouldBe a[Failure[_]]
   }
 
   it should "list and sort running processes" in {
@@ -102,7 +102,7 @@ class SimpleTaskManagerTest extends AnyFlatSpec with BeforeAndAfter {
     val result = taskManager.killProcess(UUID.randomUUID().toString)
 
     // Then
-    result shouldBe a[Failure[ProcessNotFoundException]]
+    result shouldBe a[Failure[_]]
   }
 
   it should "kill process in a specific group" in {
