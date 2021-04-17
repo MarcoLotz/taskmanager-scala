@@ -5,13 +5,13 @@ import org.scalacheck.Prop.forAllNoShrink
 import org.scalatest.matchers.must.Matchers.{be, noException, not}
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
-object BoundedFifoProcessCollectorTest extends AbstractProcessCollectorTest {
+class BoundedFifoProcessCollectorTest extends AbstractProcessCollectorTest {
 
   override protected var maximum_capacity: Int = 100
 
   override def supplyCollection: ProcessCollector = new BoundedFifoProcessCollector(maximum_capacity)
 
-  property("adding a process should remove the oldest process when list is full") =
+  "addProcess" should "remove the oldest process when list is full" in {
     forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       val processCollector = supplyCollection
       for ((process, numberOfIngestedProcesses) <- processes.zip(0 to processes.size)) {
@@ -27,4 +27,5 @@ object BoundedFifoProcessCollectorTest extends AbstractProcessCollectorTest {
       }
       true
     }
+  }
 }

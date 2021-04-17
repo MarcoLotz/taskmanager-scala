@@ -6,13 +6,13 @@ import org.scalacheck.Prop.forAllNoShrink
 import org.scalatest.matchers.must.Matchers.{be, contain, noException, not}
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
-object BoundedPriorityQueueProcessCollectorTest extends AbstractProcessCollectorTest {
+class BoundedPriorityQueueProcessCollectorTest extends AbstractProcessCollectorTest {
 
   override protected var maximum_capacity: Int = 100
 
   override def supplyCollection: ProcessCollector = new BoundedPriorityQueueProcessCollector(maximum_capacity)(PRIORITY.ordering)
 
-  property("adding a process should remove processes with lower priority when the collection is full") =
+  "addProcess" should "remove processes with lower priority when the collection is full" in {
     forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       val processCollector = supplyCollection
       for ((process, numberOfIngestedProcesses) <- processes.zip(0 to processes.size)) {
@@ -39,6 +39,7 @@ object BoundedPriorityQueueProcessCollectorTest extends AbstractProcessCollector
       }
       true
     }
+  }
 
   def retrieveLowestPriority(pCollection: List[AcceptedProcessDecorator]): Set[AcceptedProcessDecorator] =
     pCollection.sorted(PRIORITY.ordering).reverse.headOption

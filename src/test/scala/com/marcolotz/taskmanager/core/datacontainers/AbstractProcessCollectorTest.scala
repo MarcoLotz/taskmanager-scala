@@ -2,12 +2,14 @@ package com.marcolotz.taskmanager.core.datacontainers
 
 import com.marcolotz.taskmanager.model._
 import com.marcolotz.taskmanager.util.SequentialTimeProvider
+import org.scalacheck.Gen
 import org.scalacheck.Prop.forAllNoShrink
-import org.scalacheck.{Gen, Properties}
+import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers.contain
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
+import org.scalatestplus.scalacheck.{Checkers, ScalaCheckDrivenPropertyChecks}
 
-abstract class AbstractProcessCollectorTest extends Properties("ProcessCollection") {
+abstract class AbstractProcessCollectorTest extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Checkers {
 
   val processGenerator: Gen[AcceptedProcessDecorator] = for {
     priority <- Gen.oneOf(LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY)
@@ -18,7 +20,7 @@ abstract class AbstractProcessCollectorTest extends Properties("ProcessCollectio
 
   def supplyCollection: ProcessCollector
 
-  property("toList should always return the list equivalent of the internal collection") =
+  "toList" should "always returns the list equivalent of the internal collection" in {
     forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       val collection = supplyCollection
       processes.foreach(p => collection.addProcess(p))
@@ -27,16 +29,18 @@ abstract class AbstractProcessCollectorTest extends Properties("ProcessCollectio
       listEquivalent should contain allElementsOf processes
       listEquivalent.size == processes.size
     }
+  }
 
-  property("size should always return the size of the internal number of running processes") =
+  "size" should "always retun the size of the internal number of running processes" in {
     forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       val collection = supplyCollection
       processes.foreach(p => collection.addProcess(p))
       collection.size == processes.size
     }
+  }
 
 
-  property("removeMatchingProcess should always remove all processes that the predicate is true") =
+  "removeMatchingProcess" should "always remove all processes that the predicate is true" in {
     forAllNoShrink(processListGenerator) { processes: List[AcceptedProcessDecorator] =>
       // Given
       val collection = supplyCollection
@@ -54,5 +58,6 @@ abstract class AbstractProcessCollectorTest extends Properties("ProcessCollectio
       removed should contain allElementsOf (expectedRemovals)
       removed.size == expectedRemovals.size
     }
+  }
 
 }
