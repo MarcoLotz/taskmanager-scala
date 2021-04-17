@@ -20,7 +20,7 @@ sealed trait AbstractProcess {
 // If the requirements were different, then a collision avoidance component would have to create pid
 // and use as a constructor parameter.
 case class Process(priority: Priority) extends AbstractProcess with LazyLogging {
-  def pid: UUID = UUID.randomUUID()
+  val pid: UUID = UUID.randomUUID()
 
   override def kill(): AbstractProcess = {
     logger.info("Process {} just got killed", this)

@@ -24,8 +24,7 @@ class SortingMethodTest extends AnyFlatSpec with BeforeAndAfter {
       AcceptedProcessDecorator(high, timeProvider.getTime))
   }
 
-  // TODO: Fix flaky test
-  "Sorting processes by id" should "return a descending list of id numbers" ignore {
+  "Sorting processes by id" should "return a descending list of id numbers" in {
     val sortedList = inputList.sorted(ID.ordering)
     sortedList.map(p => p.process) should equal(List(high, medium, low).sortBy(p => p.pid).reverse)
   }
